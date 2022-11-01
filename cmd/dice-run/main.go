@@ -141,14 +141,16 @@ func run(n int) error {
 
 	for i := 0; i < n; i++ {
 		dice := r.Intn(6) + 1
+		prevIndex := s.SquareIndex
 		nextIndex := (s.SquareIndex + dice) % len(Squares)
-		if nextIndex < s.SquareIndex {
-			s.Laps++
-		}
 
 		s.SquareIndex = nextIndex
 		Squares[nextIndex].Apply(s)
+
 		s.SquareIndex %= len(Squares)
+		if s.SquareIndex < prevIndex {
+			s.Laps++
+		}
 	}
 	s.HasumiPieces += s.Laps
 
